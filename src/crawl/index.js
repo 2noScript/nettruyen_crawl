@@ -11,17 +11,26 @@ class Crawl {
 
   constructor() {}
 
+  //crawl
   extraction(data) {
     const htmlRaw = parse(data);
     const root = htmlRaw.querySelectorAll("#ctl00_divCenter .item");
-    const pageCount = htmlRaw.querySelector(".pagination .hidden").text;
+    const pageCount = () => {
+      try {
+        return htmlRaw.querySelector(".pagination .hidden").text;
+      } catch {
+        return "1/1";
+      }
+    };
     let jsonData = [];
     root.forEach((item) => {
       const a = item.querySelector(".image a");
       const img = item.querySelector(".image img");
       const des = item.querySelector(".box_text");
       const listP = item.querySelectorAll(".message_main p");
+
       const chapter = item.querySelector("ul a").text.replace("Chapter ", "");
+
       let obj = {};
       listP.forEach((it) => {
         const txt = it.text;
@@ -51,10 +60,11 @@ class Crawl {
       jsonData = [...jsonData, ...xb];
     });
     return {
-      pageCount,
+      pageCount: pageCount(),
       jsonData,
     };
   }
+  //  new-update?page=...
 
   async newUpdate({ page }) {
     try {
@@ -68,6 +78,7 @@ class Crawl {
       };
     }
   }
+  // hot?page=..
 
   async hot({ page }) {
     try {
@@ -84,9 +95,17 @@ class Crawl {
     }
   }
 
+  /**
+   *
+   * sort 0->3
+   * status 0->2
+   * genres 0->54
+   * !import sort status genres!=null
+   */
   async filter({ page, sort, genres, status }) {
     try {
       let path;
+
       if (genres == 0) path = ROOT_FILTER;
       else {
         path = `${ROOT_FILTER}/${GENRES[genres].slug}`;
@@ -100,9 +119,9 @@ class Crawl {
         },
       });
       return {
-        sort: sort && SORT[sort],
-        status: status && STATUS[status],
-        genres: genres && GENRES[genres],
+        sort: sort && SORT[sort].name,
+        status: status && STATUS[status].name,
+        genres: genres && GENRES[genres].name,
         ...this.extraction(data),
       };
     } catch {
@@ -112,6 +131,28 @@ class Crawl {
     }
   }
 
+  async keyWord({ kw, page }) {
+    try {
+      let path = ROOT_FILTER;
+
+      const { data } = await instance.get(path, {
+        params: {
+          page,
+          keyword: kw,
+        },
+      });
+      console.log(data);
+      return {
+        keyWord: kw ? kw : "",
+        ...this.extraction(data),
+      };
+    } catch {
+      return {
+        status: 404,
+      };
+    }
+  }
+  // detail?keymang=...
   async detail({ keymanga }) {
     try {
       const { data } = await instance.get(`${ROOT_MANGA}/${keymanga}`);
@@ -137,6 +178,7 @@ class Crawl {
       };
     }
   }
+  //chapter?keychapter
   async chapter({ keychapter }) {
     try {
       const { data } = await instance.get(`${ROOT_MANGA}${keychapter}`);
