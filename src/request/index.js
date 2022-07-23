@@ -7,7 +7,12 @@ const instance = axios.create({
     referer: process.env.WEB_CRAWL,
     origin: process.env.WEB_CRAWL,
   },
-  timeout: 10000,
+  // timeout: 10000,
+  proxy: {
+    host: "2606:4700:10::6816:4ecf",
+    port: 80,
+    // auth: { username: "my-user", password: "my-password" },
+  },
 });
 
 module.exports = {
