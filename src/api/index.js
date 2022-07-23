@@ -26,6 +26,7 @@ class Api {
   }
   async keyWord(req, res, next) {
     const data = await crawl.keyWord(req.query);
+
     await res.json(data);
   }
   // detail?keymang=...
