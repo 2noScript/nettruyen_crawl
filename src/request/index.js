@@ -10,8 +10,8 @@ const instance = axios.create({
   },
   timeout: 10000,
   proxy: {
-    host: "2606:4700:10::6816:4fcf",
-    port: 80,
+    // host: "2606:4700:10::6816:4fcf",
+    // port: 80,
     // auth: { username: "my-user", password: "my-password" },
   },
 });
