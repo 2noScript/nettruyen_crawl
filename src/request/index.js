@@ -9,11 +9,10 @@ const instance = axios.create({
     // host: process.env.WEB_CRAWL_HOST,
   },
   timeout: 10000,
-  proxy: {
-    host: "2606:4700:10::6816:4fcf",
-    port: 80,
-    // auth: { username: "my-user", password: "my-password" },
-  },
+  // proxy: {
+  //   host: "2606:4700:10::6816:4fcf",
+  //   port: 80,
+  // },
 });
 
 module.exports = {

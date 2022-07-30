@@ -13,11 +13,10 @@ class Proxy {
           // host: process.env.WEB_CRAWL_HOST,
         },
         // timeout: 10000,
-        proxy: {
-          host: "2606:4700:10::ac43:1f44",
-          port: 80,
-          // auth: { username: "my-user", password: "my-password" },
-        },
+        // proxy: {
+        //   host: "2606:4700:10::ac43:1f44",
+        //   port: 80,
+        // },
       });
       return response.data.pipe(res);
     } catch (err) {
