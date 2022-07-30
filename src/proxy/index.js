@@ -9,8 +9,10 @@ class Proxy {
         responseType: "stream",
         headers: {
           referer: process.env.WEB_CRAWL,
+          origin: process.env.WEB_CRAWL,
+          host: process.env.WEB_CRAWL_HOST,
         },
-        timeout: 10000,
+        // timeout: 10000,
         proxy: {
           host: "2606:4700:10::ac43:1f44",
           port: 80,
