@@ -2,10 +2,11 @@ const { instance } = require("../request");
 const { parse } = require("node-html-parser");
 const { ROOT, ROOT_MANGA, ROOT_HOT, ROOT_FILTER } = require("../configs");
 const { GENRES, SORT, STATUS } = require("../tmp");
+require("dotenv").config();
 const axios = require("axios").default;
 class Crawl {
   replaceKey = {
-    text: `http://www.nettruyenco.com/truyen-tranh/`,
+    text: `${process.env.WEB_CRAWL}${ROOT_MANGA}`,
     re: "",
   };
 
@@ -13,6 +14,8 @@ class Crawl {
 
   //crawl
   extraction(data) {
+    console.log(this.replaceKey.text);
+
     const htmlRaw = parse(data);
     const root = htmlRaw.querySelectorAll("#ctl00_divCenter .item");
     const pageCount = () => {
