@@ -10,6 +10,12 @@ class Proxy {
         headers: {
           referer: process.env.WEB_CRAWL,
         },
+        timeout: 10000,
+        proxy: {
+          host: "2606:4700:10::ac43:1f44",
+          port: 80,
+          // auth: { username: "my-user", password: "my-password" },
+        },
       });
       return response.data.pipe(res);
     } catch (err) {

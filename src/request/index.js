@@ -9,11 +9,11 @@ const instance = axios.create({
     host: "www.nettruyenme.com",
   },
   timeout: 10000,
-  // proxy: {
-  //   host: "14.161.31.192",
-  //   port: 53281,
-  //   // auth: { username: "my-user", password: "my-password" },
-  // },
+  proxy: {
+    host: "2606:4700:10::ac43:1f44",
+    port: 80,
+    // auth: { username: "my-user", password: "my-password" },
+  },
 });
 
 module.exports = {
