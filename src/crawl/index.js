@@ -14,10 +14,10 @@ class Crawl {
 
   //crawl
   extraction(data) {
-    console.log(this.replaceKey.text);
+    // console.log(this.replaceKey.text);
 
     const htmlRaw = parse(data);
-    const root = htmlRaw.querySelectorAll("#ctl00_divCenter .item");
+    const root = htmlRaw.querySelectorAll("#ctl00_divCenter .items .row .item");
     const pageCount = () => {
       try {
         return htmlRaw.querySelector(".pagination .hidden").text;
@@ -70,6 +70,7 @@ class Crawl {
   //  new-update?page=...
 
   async newUpdate({ page }) {
+    // console.log(`${process.env.WEB_CRAWL}${ROOT}?page=${page}`);
     try {
       const { data } = await instance.get(ROOT, {
         params: { page },
