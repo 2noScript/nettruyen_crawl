@@ -163,6 +163,8 @@ class Crawl {
       const htmlRaw = parse(data);
       const listChapter = htmlRaw.querySelectorAll("#nt_listchapter nav li");
       const detail = htmlRaw.querySelector(".detail-info");
+      const content = htmlRaw.querySelector(".detail-content p");
+      // console.log(content.innerHTML);
       let jsonData = {
         chapterList: [],
         detail: null,
@@ -194,6 +196,7 @@ class Crawl {
           .reduce((total, curValue) => {
             return [...total, curValue.text];
           }, []),
+        description: content.innerHTML,
       };
       return jsonData;
     } catch (err) {
