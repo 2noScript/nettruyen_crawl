@@ -162,7 +162,12 @@ class Crawl {
       const { data } = await instance.get(`${ROOT_MANGA}/${keymanga}`);
       const htmlRaw = parse(data);
       const listChapter = htmlRaw.querySelectorAll("#nt_listchapter nav li");
-      let jsonData = [];
+      const detail = htmlRaw.querySelector(".detail-info");
+      let jsonData = {
+        chapterList: [],
+        detail: null,
+      };
+      //get chapter
       listChapter.forEach((item) => {
         const a = item.querySelector("a");
         const id = a.getAttribute("data-id");
@@ -172,8 +177,24 @@ class Crawl {
         const keyChapter = a
           .getAttribute("href")
           .replace(this.replaceKey.text, this.replaceKey.re);
-        jsonData = [...jsonData, { id, timeUpdate, chapter, keyChapter }];
+        jsonData.chapterList = [
+          ...jsonData.chapterList,
+          { id, timeUpdate, chapter, keyChapter },
+        ];
       });
+      // get detail
+      // console.log(detail.querySelector("img"));
+      jsonData.detail = {
+        avatar: detail.querySelector("img").getAttribute("src"),
+        name: detail.querySelector("img").getAttribute("alt").trim(),
+        author: detail.querySelector(".author .col-xs-8").text.trim(),
+        status: detail.querySelector(".status .col-xs-8").text.trim(),
+        tags: detail
+          .querySelectorAll(".kind .col-xs-8 a")
+          .reduce((total, curValue) => {
+            return [...total, curValue.text];
+          }, []),
+      };
       return jsonData;
     } catch (err) {
       console.log("lỗi");
